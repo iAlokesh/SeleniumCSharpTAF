@@ -16,13 +16,12 @@ namespace SeleniumTestAutomationFramework.PageObjects
             PageFactory.InitElements(Driver, this);
         }
 
-        [FindsBy(How = How.Name, Using = "q")]
+        [FindsBy(How = How.Name, Using = "qr")]
         [CacheLookup]
         private IWebElement SearchBar { get; set; }
 
         public void EnterValueAndSearch(string key)
         {
-            SearchBar.Click();
             SearchBar.SendKeys(key);
             SearchBar.SendKeys(Keys.Enter);
             Test.Log(LogStatus.Info, "Google Search");

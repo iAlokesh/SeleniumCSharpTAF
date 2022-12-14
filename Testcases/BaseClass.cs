@@ -4,6 +4,9 @@ using SeleniumTestAutomationFramework.PageObjects;
 using SeleniumTestAutomationFramework.ResuableLibraries;
 using RelevantCodes.ExtentReports;
 using System.Configuration;
+using System.IO;
+using System;
+using NUnit.Framework.Interfaces;
 
 namespace SeleniumTestAutomationFramework.Testcases
 {
@@ -15,9 +18,11 @@ namespace SeleniumTestAutomationFramework.Testcases
         public ExtentTest Test;
         public TestDataProvider TDP;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void ReportInitialize()
         {
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            Console.WriteLine("Project Directory: " + projectDirectory);
             Extent = new ExtentReports("D:\\CSharp\\SeleniumTestAutomationFramework\\TestReports\\Google.html", true);
         }
 
@@ -33,21 +38,21 @@ namespace SeleniumTestAutomationFramework.Testcases
         [TearDown]
         public void QuitBrowser()
         {
-            if (TestContext.CurrentContext.Result.Status == TestStatus.Passed)
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Passed)
             {
                 Test.Log(LogStatus.Pass, TestContext.CurrentContext.Test.Name + " has been passed successfully");
                 Test.Log(LogStatus.Info, Test.AddBase64ScreenCapture(ReusableMethods.GetScreenshot()));
             }
-            else if (TestContext.CurrentContext.Result.Status == TestStatus.Failed)
+            else if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
             {
-                Test.Log(LogStatus.Fail, TestContext.CurrentContext.Test.Name + " has been failed " + TestContext.CurrentContext.Result);
+                Test.Log(LogStatus.Fail, TestContext.CurrentContext.Test.Name + " has been failed " + TestContext.CurrentContext.Result.Message);
                 Test.Log(LogStatus.Info, Test.AddBase64ScreenCapture(ReusableMethods.GetScreenshot()));
             }
             Extent.EndTest(Test);
             Driver.Quit();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void EndReport()
         {
             Extent.Flush();
