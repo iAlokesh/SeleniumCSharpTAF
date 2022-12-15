@@ -16,7 +16,7 @@ namespace SeleniumTestAutomationFramework.PageObjects
             PageFactory.InitElements(Driver, this);
         }
 
-        [FindsBy(How = How.Name, Using = "qr")]
+        [FindsBy(How = How.Name, Using = "q")]
         [CacheLookup]
         private IWebElement SearchBar { get; set; }
 
