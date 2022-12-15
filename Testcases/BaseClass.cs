@@ -22,10 +22,10 @@ namespace SeleniumTestAutomationFramework.Testcases
         [OneTimeSetUp]
         public void ReportInitialize()
         {
-            projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             string dateFormat = DateTime.Now.ToString("yyyyMMddHHmmss");
             string reportName = ConfigurationManager.AppSettings["ReportName"];
-            Extent = new ExtentReports(projectDirectory + "\\SeleniumTestAutomationFramework\\TestReports\\" + reportName + "_" + dateFormat + ".html", true);
+            Extent = new ExtentReports(projectDirectory + "\\TestReports\\" + reportName + "_" + dateFormat + ".html", true);
         }
 
         [SetUp]
@@ -33,7 +33,7 @@ namespace SeleniumTestAutomationFramework.Testcases
         {
             Test = Extent.StartTest(TestContext.CurrentContext.Test.Name);
             Driver = ReusableMethods.LaunchBrowser(ConfigurationManager.AppSettings["BrowserName"], Test);
-            TDP = new TestDataProvider(projectDirectory + "\\SeleniumTestAutomationFramework\\TestDataSheet\\TestData.xlsx");
+            TDP = new TestDataProvider(projectDirectory + "\\TestDataSheet\\TestData.xlsx");
             Gsp = new GoogleSearchPage(Driver, Test);
         }
 
